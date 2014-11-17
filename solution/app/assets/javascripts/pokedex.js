@@ -67,13 +67,16 @@ Pokedex.Collections.Pokemon = Backbone.Collection.extend({
 });
 
 Pokedex.Models.Toy = Backbone.Model.extend({ // III 
-  urlRoot: '/toys'
 });
 
 Pokedex.Collections.Toys = Backbone.Collection.extend({ // III 
   model: Pokedex.Models.Toy,
   initialize: function(models, pokemon) {
     this.pokemon = pokemon;
+  },
+  
+  url: function () {
+    return this.pokemon.url() + '/toys'
   }
 });
 
@@ -97,7 +100,14 @@ Pokedex.prototype.createPokemon = function (attrs, callback) { // I
 };
 
 Pokedex.prototype.createToy = function (attrs, callback) { // III
-
+  var pokeId = attrs.pokemon_id;
+  var pokemon = this.pokes.get(pokeId);
+  
+  var toy = pokemon.toys().create(attrs, {
+    success: function () {
+      callback && callback(toy);
+    }
+  });
 };
 
 Pokedex.prototype.listPokemon = function (callback) { // I
@@ -122,19 +132,21 @@ Pokedex.prototype.renderPokemonDetail = function (pokemon) { // II
 
   pokemon.fetch({ // III
     success: function() {
-      var $toys = that.$pokeDetail.find('.toys');
-      
       pokemon.toys().each(function(toy) { // III
-        that.renderToyListItem(toy, $toys);
+        that.renderToyListItem(toy);
       });
     }
   });
 
-  var renderedContent = this.pokemonDetailTemplate({
+  var renderedContent = this.pokemonDetailTemplate({ // IV
     pokemon: pokemon
   });
 
 	this.$pokeDetail.html(renderedContent);
+  this.$pokeDetail.find('.create-toy').on('submit', 
+        this.submitToyForm.bind(this)); // IV
+  this.$pokeDetail.find('.edit-pokemon').on('submit', 
+        this.updatePokemon.bind(this, pokemon));
 };
 
 Pokedex.prototype.addPokemonToList = function (pokemon) { // II 
@@ -158,33 +170,19 @@ Pokedex.prototype.addAllPokemonToList = function () {
 Pokedex.prototype.renderToyDetail = function(toy) { // III
   this.$toyDetail.empty();
 
-  var $detail = $('<div class="detail">');
-  $detail.append('<img src="' + toy.get('image_url') + '"><br>');
-  for(var attr in toy.attributes) {
-    if(attr !== 'pokemon_id' && attr !== 'image_url') {
-      var $span = $('<span style="font-weight:bold;">');
-      $span.html(attr + ': ');
-      $detail.append($span);
-      $span.after('<br>');
-      $span.after(toy.get(attr));
-    }
-  }
-  
-  this.$toyDetail.html($detail);
-};
-
-Pokedex.prototype.renderToyForm = function($list) {
-  var $li = $('<li class="toy-list-item">');
-  var $form = $('<form>');
-  ['name', 'price', 'happiness'].forEach(function(el) {
-    
-  });
-};
-
-Pokedex.prototype.renderToyListItem = function (toy, $list) { // III
-  var renderedContent = this.toyListItemTemplate({
+  var renderedContent = this.toyDetailTemplate({ // IV
     toy: toy
   });
+  
+  this.$toyDetail.html(renderedContent);
+};
+
+Pokedex.prototype.renderToyListItem = function (toy) { // III
+  var $list = this.$pokeDetail.find('.toys');
+  var renderedContent = this.toyListItemTemplate({ // IV
+    toy: toy
+  });
+  
   $list.append(renderedContent);
 };
 
@@ -229,6 +227,18 @@ Pokedex.prototype.submitToyForm = function (event) {
     that.renderToyDetail(toy);
     that.renderToyListItem(toy);
   });
+};
+
+Pokedex.prototype.updatePokemon = function (pokemon, event) {
+  event.preventDefault();
+  var pokeAttrs = $(event.target).serializeJSON()['pokemon'];
+  
+  var that = this;
+  pokemon.save(pokeAttrs, {
+    success: function () {
+      that.renderPokemonDetail(pokemon);
+    }
+  })
 };
 
 $(function() {

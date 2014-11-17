@@ -77,23 +77,63 @@
   <div class='detail'>
     <img src="<%%= pokemon.get('image_url') %>">
     <br>
-    <form>
-    <%% for(var attr in pokemon.attributes) { %>
-      <label>
-        <%%= attr %>
-        <input 
-          type='text' 
-          value='<%%= pokemon.get('attr') %>' 
-          name='pokemon[<%%=attr %>]'>
-      </label>
-      <br>
-    <%% } %>
+    <form class='edit-pokemon'>
+      <input 
+        type='hidden' 
+        name='pokemon[id]' 
+        value='<%%= pokemon.get('id') %>'>
+      <%% for(var attr in pokemon.attributes) { %>
+        <%% if (attr !== 'id') { %>
+          <label>
+            <%%= attr %>
+            <input 
+              type='text' 
+              value='<%%= pokemon.get(attr) %>' 
+              name='pokemon[<%%=attr %>]'>
+          </label>
+          <br>
+        <%% } %>
+      <%% } %>
 
-    <button>submit changes</button>
+      <button>Edit Pokemon</button>
+    </form>
   </div>
+  
   <ul class='toys'>
     <span style="font-weight: bold;">Toys:</span><br>
   </ul>
+  
+  <form class='create-toy'>
+    <input 
+      type='hidden' 
+      name='toy[pokemon_id]'
+      value='<%%= pokemon.get('id') %>'>
+    <label>Name:
+      <input 
+        type='text' 
+        name='toy[name]'>
+    </label>
+    <br>
+    <label>Price:
+      <input 
+        type='text' 
+        name='toy[price]'>
+    </label>
+    <br>
+    <label>Happiness
+      <input 
+        type='text' 
+        name='toy[happiness]'>
+    </label>
+    <br>
+    <label>Image_url:
+      <input 
+        type='text' 
+        name='toy[image_url]'>
+    </label>
+    <br>
+    <button>Create Toy</button>
+  </form>
 </script>
 
 <script type='text/html' id='template-toy-list-item'>
@@ -110,7 +150,32 @@
     <span style='text-style:bold;'>
       Happiness:</span> <%%= toy.get('happiness') %>
   </li>
-
-
 </script>
-<script type='text/html' id='template-toy-detail'></script>
+
+<script type='text/html' id='template-toy-detail'>
+  <div class='detail'>
+    <img src="<%%= toy.get('image_url') %>">
+    <br>
+    <form class='edit-toy'>
+      <input 
+        type='hidden' 
+        value='<%%= toy.get('id') %>'
+        name='toy[id]'>
+      <%% for(var attr in toy.attributes) { %>
+        <%% if (attr !== 'id') { %>
+          <label>
+            <%%= attr %>
+            <input 
+              type='text' 
+              value='<%%= toy.get(attr) %>' 
+              name='toy[<%%= attr %>]'>
+          </label>
+          <br>
+        <%% } %>
+      <%% } %>
+
+      <button>Edit Toy</button>
+    </form>
+  </div>
+  
+</script>

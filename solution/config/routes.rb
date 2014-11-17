@@ -5,5 +5,5 @@ Rails.application.routes.draw do
     :pokemon,
     defaults: {format: :json},
     only: [:create, :show, :index, :destroy, :update]
-  )
+  ) { resources :toys, only: [:create, :update] }
 end

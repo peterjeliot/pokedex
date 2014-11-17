@@ -89,14 +89,13 @@ body {
   display:block;
 }
 
-.new-pokemon button {
+form button {
   padding: 5px;
   border: 0;
   color: white;
   background-color: tomato;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 100px;
 }
 
 .toy {
