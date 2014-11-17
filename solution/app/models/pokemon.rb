@@ -33,7 +33,6 @@ class Pokemon < ActiveRecord::Base
     "steel"
   ].sort
 
-  serialize :levels, Array
   serialize :moves, Array
 
   has_many :toys
