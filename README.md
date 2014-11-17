@@ -243,7 +243,7 @@ parse: function (jsonResponse) {
 ```
 
 **default:**
-![](../images/parse_before.jpg)
+![](images/parse_before.jpg)
 
 ```javascript
 // modified:
@@ -256,7 +256,7 @@ parse: function (jsonResponse) {
 ```
 
 **modified**
-![](../images/parse_after.jpg)
+![](images/parse_after.jpg)
 
 Write the `parse` method for your `Pokemon` model. It should:
 
