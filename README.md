@@ -322,16 +322,24 @@ Now let's let the user create new toys.
 
 ## Phase IV: Using Templates
 
-It's generally poor form to have tightly-coupled JavaScript and HTML - generating your HTML with jQuery can be a headache, and it lengthens your functions! 
+It's generally poor form to have tightly-coupled JavaScript and HTML -
+generating your HTML with jQuery can be a headache, and it lengthens your
+functions! 
 
-Let's change our `render` functions to use underscore templates, instead of building DOM elements with jQuery. We're going to write our templates inside `<script>` tags in `root.html.erb`. Give each `script` tag `type='text/html'` so that the browser doesn't try to run it as JavaScript. Make four templates with different `id`s, one each for:
+Let's change our `render` functions to use underscore templates, instead of
+building DOM elements with jQuery. We're going to write our templates inside
+`<script>` tags in `root.html.erb`. Give each `script` tag `type='text/html'`
+so that the browser doesn't try to run it as JavaScript. Make four templates
+with different `id`s, one each for:
 
  * `pokemon` detail
  * `pokemon` list-item
  * `toy` detail
  * `toy` list-item
  
-Inside each template, you can write HTML markup with embedded JavaScript (EJS) - it might look a lot like ERB. For example, if you wanted to generate a `h1` tag with your model's name, it would look like this:
+Inside each template, you can write HTML markup with embedded JavaScript (EJS)
+- it might look a lot like ERB. For example, if you wanted to generate a `h1`
+tag with your model's name, it would look like this:
 
 ```ejs
 <script type='text/html' id='template-pokemon-detail'>
@@ -348,31 +356,42 @@ Similarly, you can iterate over collections in a similar fashion to ERB:
 <% }) %>
 ```
 
-This is how we would write our templates in a normal `.html` file. However, since EJS and ERB use the same `<%= %>` notation, and we're placing these templates in `.html.erb` files, we need to make sure ERB does not try to run the code before it gets to the browser. 
+This is how we would write our templates in a normal `.html` file. However,
+since EJS and ERB use the same `<%= %>` notation, and we're placing these
+templates in `.html.erb` files, we need to make sure ERB does not try to run
+the code before it gets to the browser. 
 
-When writing EJS inside of an ERB file, add one extra `%` in front of the EJS tags to indicate to ERB that it should not execute the code inside of the tags. Like so:
+When writing EJS inside of an ERB file, add one extra `%` in front of the EJS
+tags to indicate to ERB that it should not execute the code inside of the tags.
+Like so:
 
 ```ejs
-<h1><%%= pokemon.get('name') %></h1> <!-- note that only one '%' is used to close the tag -->
+<h1><%%= pokemon.get('name') %></h1> <!-- note that only one '%' is used to 
+close the tag -->
 <%% pokemon.toys.each(function (toy) { %>
 ...
 <%% }) %>
 ```
 
-In the constructor function for your RootView, set up references to these templates. Call the underscore `_.template` function on each template, passing in the inner HTML of your script tags, like so:
+In the constructor function for your RootView, set up references to these
+templates. Call the underscore `_.template` function on each template, passing
+in the inner HTML of your script tags, like so:
 
 ```javascript
 this.pokemonDetailTemplate = _.template($('#template-pokemon-detail').html());
 ```
 
-The `_.template` function returns a new function that, when invoked, will render an HTML string from your template using a hash of local variables that you can pass in. E.g.:
+The `_.template` function returns a new function that, when invoked, will
+render an HTML string from your template using a hash of local variables that
+you can pass in. E.g.:
 
 ```javascript
 var renderedContent = this.pokemonDetailTemplate({ pokemon: (your model) });
 // returns string of HTML => '<h1>Pikachu</h1>'
 ```
 
-Now you can place `renderedContent` inside of another HTML element, instead of a jQuery object:
+Now you can place `renderedContent` inside of another HTML element, instead of
+a jQuery object:
 
 ```javascript
 // before
@@ -382,4 +401,5 @@ this.el.html($detail)
 this.el.html(renderedContent);
 ```
 
-For each RootView method that renders HTML with jQuery, render this HTML instead using your `script` tags and `_.template`. 
+For each RootView method that renders HTML with jQuery, render this HTML
+instead using your `script` tags and `_.template`. 
