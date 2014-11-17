@@ -79,20 +79,37 @@
     <br>
     <form>
     <%% for(var attr in pokemon.attributes) { %>
-      <label><%%= attr %>
-      <input 
-        type='text' 
-        value='<%%= pokemon.get('attr') %>' 
-        name='pokemon[<%%=attr %>]'>
+      <label>
+        <%%= attr %>
+        <input 
+          type='text' 
+          value='<%%= pokemon.get('attr') %>' 
+          name='pokemon[<%%=attr %>]'>
+      </label>
+      <br>
     <%% } %>
 
     <button>submit changes</button>
   </div>
-  <ul class='toys'></ul>
+  <ul class='toys'>
+    <span style="font-weight: bold;">Toys:</span><br>
+  </ul>
 </script>
 
 <script type='text/html' id='template-toy-list-item'>
-  
+  <li
+    class='toy-list-item'
+    data-id='<%%= toy.get('id') %>'
+    data-pokemon-id='<%%= toy.get('pokemon_id') %>'>
+    <span style='text-style:bold;'>
+      Name:</span> <%%= toy.get('name') %>
+      <br>
+    <span style='text-style:bold;'>
+      Price:</span> <%%= toy.get('price') %>
+      <br>
+    <span style='text-style:bold;'>
+      Happiness:</span> <%%= toy.get('happiness') %>
+  </li>
 
 
 </script>

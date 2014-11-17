@@ -122,14 +122,11 @@ Pokedex.prototype.renderPokemonDetail = function (pokemon) { // II
 
   pokemon.fetch({ // III
     success: function() {
-      var $toys = $('<ul class="toys"></ul>');
-      $toys.append('<span style="font-weight: bold;">Toys:</span><br>');
+      var $toys = that.$pokeDetail.find('.toys');
       
       pokemon.toys().each(function(toy) { // III
         that.renderToyListItem(toy, $toys);
       });
-
-      that.$pokeDetail.append($toys);
     }
   });
 
@@ -185,15 +182,6 @@ Pokedex.prototype.renderToyForm = function($list) {
 };
 
 Pokedex.prototype.renderToyListItem = function (toy, $list) { // III
-  //var $li = $('<li class="toy-list-item">');
-  //$li.data('id', toy.get('id'));
-  //$li.data('pokemon-id', toy.get('pokemon_id'));
-
-  //var shortInfo = ['name', 'happiness', 'price'];
-  //shortInfo.forEach(function (attr) {
-  //  $li.append(attr + ': ' + toy.get(attr) + '<br>');
-  //});
-  
   var renderedContent = this.toyListItemTemplate({
     toy: toy
   });
