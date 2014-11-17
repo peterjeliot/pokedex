@@ -11,10 +11,18 @@
 
       <div>
         <label 
-          for='pokemon_number'>No.:</label>
+          for='pokemon_attack'>Attack:</label>
         <input
-          type='number'
-          name='pokemon[number]'>
+          type='attack'
+          name='pokemon[attack]'>
+      </div>
+
+      <div>
+        <label 
+          for='pokemon_defense'>Defense:</label>
+        <input
+          type='defense'
+          name='pokemon[defense]'>
       </div>
 
       <div>
@@ -24,7 +32,11 @@
           type='text'
           name='pokemon[image_url]'>
       </div>
-
+      
+      <span class='flavor'>
+        *For poke-pics, set to "/assets/pokemon_snaps/#{number}.png"
+      </span>
+      
       <div>
         <label 
           for='pokemon_poke_type'>Type:</label>
@@ -39,9 +51,7 @@
 
       <button>Create Pokemon</button>
       <br>
-      <span class='flavor'>
-        *Defaults to "/assets/pokemon_snaps/#{number}.png"
-      </span>
+
     </form>
 
     <ul class='pokemon-list'></ul>
@@ -52,5 +62,33 @@
 
   ><div class='toy-detail'>
   </div>
-
 </div>
+
+<script type='text/html' id='template-pokemon-list-item'>
+
+</script>
+
+<script type='text/html' id='template-pokemon-detail'>
+  <div class='detail'>
+    <img src="<%%= pokemon.get('image_url') %>">
+    <br>
+    <form>
+    <%% for(var attr in pokemon.attributes) { %>
+      <label><%%= attr %>
+      <input 
+        type='text' 
+        value='<%%= pokemon.get('attr') %>' 
+        name='pokemon[<%%=attr %>]'>
+    <%% } %>
+
+    <button>submit changes</button>
+  </div>
+  <ul class='toys'></ul>
+</script>
+
+<script type='text/html' id='template-toy-list-item'>
+  
+
+
+</script>
+<script type='text/html' id='template-toy-detail'></script>

@@ -11,6 +11,7 @@
 window.Pokedex = function ($el) {
   this.$el = $el; // II
   this.pokes = new Pokedex.Collections.Pokemon; // I
+
 	this.$pokeList = this.$el.find('.pokemon-list'); // II
 	this.$pokeDetail = this.$el.find('.pokemon-detail'); // II
   this.$newPoke = this.$el.find('.new-pokemon'); // II
@@ -19,6 +20,11 @@ window.Pokedex = function ($el) {
 	this.$pokeList.on('click', 'li', this.selectPokemonFromList.bind(this)); // II
   this.$newPoke.on('submit', this.submitPokemonForm.bind(this)); // II
   this.$pokeDetail.on('click', 'li', this.selectToyFromList.bind(this)); // III
+
+  this.pokemonListItemTemplate = _.template($('#template-pokemon-list-item').html());
+  this.pokemonDetailTemplate = _.template($('#template-pokemon-detail').html());
+  this.toyListItemTemplate = _.template($('#template-toy-list-item').html());
+  this.toyDetailTemplate = _.template($('#template-toy-detail').html());
 
   this.pokes.on('change', this.addAllPokemonToList.bind(this)); 
 }
@@ -127,28 +133,11 @@ Pokedex.prototype.renderPokemonDetail = function (pokemon) { // II
     }
   });
 
-	var num = pokemon.get('number');
-  
-  // num can be string or number depending on whether it came
-  // from the server or not #=> convert to str if it's a number
-  if(typeof num === 'number') {
-    num = "" + num;
-  }
-	while(num.length < 3) {
-    num = '0' + num;
-	}
+  var renderedContent = this.pokemonDetailTemplate({
+    pokemon: pokemon
+  });
 
-  var $detail = $('<div class="detail">');
-
-	$detail.append('<img src="' + pokemon.get('image_url') + '"><br>');
-	for(var attr in pokemon.attributes) {
-		if(pokemon.get(attr) && attr !== 'id' && attr !== 'image_url') {
-			$detail.append('<span style="font-weight:bold;">' + attr + ':</span> ' +
-						pokemon.get(attr) + '<br>');
-		}
-	}
-
-	this.$pokeDetail.html($detail);
+	this.$pokeDetail.html(renderedContent);
 };
 
 Pokedex.prototype.addPokemonToList = function (pokemon) { // II 
@@ -200,16 +189,19 @@ Pokedex.prototype.renderToyForm = function($list) {
 };
 
 Pokedex.prototype.renderToyListItem = function (toy, $list) { // III
-  var $li = $('<li class="toy-list-item">');
-  $li.data('id', toy.get('id'));
-  $li.data('pokemon-id', toy.get('pokemon_id'));
+  //var $li = $('<li class="toy-list-item">');
+  //$li.data('id', toy.get('id'));
+  //$li.data('pokemon-id', toy.get('pokemon_id'));
 
-  var shortInfo = ['name', 'happiness', 'price'];
-  shortInfo.forEach(function (attr) {
-    $li.append(attr + ': ' + toy.get(attr) + '<br>');
-  });
+  //var shortInfo = ['name', 'happiness', 'price'];
+  //shortInfo.forEach(function (attr) {
+  //  $li.append(attr + ': ' + toy.get(attr) + '<br>');
+  //});
   
-  $list.append($li);
+  var renderedContent = this.toyListItemTemplate({
+    toy: toy
+  });
+  $list.append(renderedContent);
 };
 
 Pokedex.prototype.selectPokemonFromList = function (event) { // II

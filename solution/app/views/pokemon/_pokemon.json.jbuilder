@@ -1,6 +1,5 @@
-json.extract!(pokemon, :id, :name, :number, :poke_type, :attack,
-			:defense, :evolve_level, :evolve_to, :moves, :levels,
-			:curve, :probability, :image_url)
+json.extract!(pokemon, :id, :name, :poke_type, :attack,
+			:defense, :moves, :image_url)
 
 toys ||= nil
 unless toys.nil?

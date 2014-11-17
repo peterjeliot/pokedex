@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: pokemons
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)      not null
+#  attack     :integer          not null
+#  defense    :integer          not null
+#  poke_type  :string(255)      not null
+#  moves      :string(255)      not null
+#  image_url  :string(255)      not null
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Pokemon < ActiveRecord::Base
   TYPES = [
     "fire",
