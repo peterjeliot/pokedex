@@ -395,10 +395,10 @@ a jQuery object:
 
 ```javascript
 // before
-this.el.html($detail)
+this.$el.html($detail)
 
 // after
-this.el.html(renderedContent);
+this.$el.html(renderedContent);
 ```
 
 For each RootView method that renders HTML with jQuery, render this HTML
