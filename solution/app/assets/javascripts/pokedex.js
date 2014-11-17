@@ -143,15 +143,11 @@ Pokedex.prototype.renderPokemonDetail = function (pokemon) { // II
 Pokedex.prototype.addPokemonToList = function (pokemon) { // II 
 	// build LI
 	// apped it to $pokeList
-	var $li = $('<li class="poke-list-item">');
-  $li.data('id', pokemon.get('id'));
-
-	var shortInfo = ['name', 'number', 'poke_type'];
-	shortInfo.forEach(function (attr) {
-		$li.append(attr + ': ' + pokemon.get(attr) + '<br>');
-	});
-
-	this.$pokeList.append($li);
+  var renderedContent = this.pokemonListItemTemplate({
+    pokemon: pokemon
+  });
+  
+	this.$pokeList.append(renderedContent);
 };
 
 Pokedex.prototype.addAllPokemonToList = function () {

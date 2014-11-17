@@ -65,7 +65,12 @@
 </div>
 
 <script type='text/html' id='template-pokemon-list-item'>
-
+  <li 
+    class='poke-list-item' 
+    data-id='<%%= pokemon.get('id') %>'>
+    name: <%%= pokemon.get('name') %><br>
+    type: <%%= pokemon.get('poke_type') %>
+  </li>
 </script>
 
 <script type='text/html' id='template-pokemon-detail'>
